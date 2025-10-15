@@ -58,5 +58,6 @@ public class Word {
     public String toString() {
         return "%s → %s (I=%d, E=%d, next=%s)".formatted(front, back, intervalDays, ease, nextReviewDate);
     }
+
 }
 

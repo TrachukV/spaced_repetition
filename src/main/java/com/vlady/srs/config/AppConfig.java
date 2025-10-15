@@ -3,11 +3,11 @@ package com.vlady.srs.config;
 import com.vlady.srs.application.usecase.AddWordUseCase;
 import com.vlady.srs.application.usecase.GetDueWordsUseCase;
 import com.vlady.srs.domain.repository.WordRepository;
-import com.vlady.srs.infrastructure.repo.InMemoryWordRepository;
+import com.vlady.srs.infrastructure.repo.FileWordRepository;
 
 public class AppConfig {
     private static AppConfig INSTANCE;
-    private final WordRepository wordRepository = new InMemoryWordRepository();
+    private final WordRepository wordRepository = new FileWordRepository();
     private final AddWordUseCase addWordUseCase = new AddWordUseCase(wordRepository);
     private final GetDueWordsUseCase getDueWordsUseCase = new GetDueWordsUseCase(wordRepository);
 

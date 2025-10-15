@@ -7,12 +7,20 @@ import com.vlady.srs.config.AppConfig;
 import com.vlady.srs.domain.Word;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
 import java.time.LocalDate;
+
+import static javafx.scene.layout.Priority.ALWAYS;
 
 public class MainApp extends Application {
     @Override
@@ -20,11 +28,22 @@ public class MainApp extends Application {
         AppConfig appConfig = AppConfig.getINSTANCE();
         AddWordUseCase add = appConfig.addWord();
         GetDueWordsUseCase getDue = appConfig.getDueWords();
-        add.execute("apple", "äpple");
-        add.execute("house", "hus");
-        add.execute("river", "älv");
 
         ListView<Word> listView = new ListView<Word>();
+
+        Button buttonCorrect = new Button("Correct");
+
+        Button buttonWrong = new Button("Wrong");
+        Button buttonAdd = new Button("Add");
+        HBox reviewBox = new HBox(10, buttonCorrect, buttonWrong);
+
+
+        TextField textFieldFront = new TextField();
+        TextField textFieldBack = new TextField();
+        textFieldBack.setPromptText("Back (e.g., SV)");
+        textFieldFront.setPromptText("Front (e.g., EN)");
+
+
         listView.setCellFactory(new Callback<ListView<Word>, ListCell<Word>>() {
             @Override
             public ListCell<Word> call(ListView<Word> list) {
@@ -47,10 +66,6 @@ public class MainApp extends Application {
         };
         refresh.run();
 
-
-        Button buttonCorrect = new Button("Correct");
-        Button buttonWrong = new Button("Wrong");
-
         buttonCorrect.setOnAction(e -> {
             Word word = listView.getSelectionModel().getSelectedItem();
             if (word == null) return;
@@ -58,17 +73,36 @@ public class MainApp extends Application {
             refresh.run();
         });
         buttonWrong.setOnAction(e -> {
-            var w = listView.getSelectionModel().getSelectedItem();
+            Word w = listView.getSelectionModel().getSelectedItem();
             if (w == null) return;
             w.review(false);
             refresh.run();
         });
-        var buttons = new javafx.scene.layout.HBox(10, buttonCorrect, buttonWrong);
-        var root = new javafx.scene.layout.VBox(10, listView, buttons);
+        buttonAdd.setOnAction(e -> {
+            String front = textFieldFront.getText().trim();
+            String back = textFieldBack.getText().trim();
+            if (front.isEmpty() || back.isEmpty()) return;
+            add.execute(front, back);
+            textFieldFront.clear();
+            textFieldBack.clear();
+            refresh.run();
+        });
+        HBox addBox = new HBox(10, textFieldFront, textFieldBack, buttonAdd);
+        HBox.setHgrow(textFieldFront, ALWAYS);
+        HBox.setHgrow(textFieldBack, ALWAYS);
+        VBox bottom = new VBox(10, reviewBox, addBox);
+
+
+        BorderPane root = new BorderPane();
+        root.setCenter(listView);
+        root.setBottom(bottom);
         root.setPadding(new javafx.geometry.Insets(12));
 
+
+        listView.setPrefHeight(320);
+        reviewBox.setPadding(new Insets(8, 8, 0, 0));
+        stage.setScene(new javafx.scene.Scene(root, 640, 520));
         stage.setTitle("SRS — Due today");
-        stage.setScene(new javafx.scene.Scene(root, 520, 380));
         stage.show();
     }
 
