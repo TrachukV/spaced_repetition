@@ -17,7 +17,6 @@ public class FileWordRepository implements WordRepository {
     private final Path filePath;
     private final Gson gson;
     private final Map<String, Word> store = new LinkedHashMap<>();
-
     public FileWordRepository() {
         this(Paths.get(System.getProperty("user.home"), ".srs", "words.json"));
     }

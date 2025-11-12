@@ -1,9 +1,6 @@
 package com.vlady.srs.config;
 
-import com.vlady.srs.application.usecase.AddWordUseCase;
-import com.vlady.srs.application.usecase.GetAllWordsUseCase;
-import com.vlady.srs.application.usecase.GetDueWordsUseCase;
-import com.vlady.srs.application.usecase.ReviewWordUseCase;
+import com.vlady.srs.application.usecase.*;
 import com.vlady.srs.domain.repository.WordRepository;
 import com.vlady.srs.infrastructure.repo.FileWordRepository;
 
@@ -12,6 +9,8 @@ public class AppConfig {
     private final WordRepository wordRepository = new FileWordRepository();
     private final AddWordUseCase addWordUseCase = new AddWordUseCase(wordRepository);
     private final GetDueWordsUseCase getDueWordsUseCase = new GetDueWordsUseCase(wordRepository);
+    private final DeleteWordUseCase deleteWordUseCase = new DeleteWordUseCase(wordRepository);
+
 
     private AppConfig() {
     }
@@ -34,4 +33,6 @@ public class AppConfig {
     public GetDueWordsUseCase getDueWords() {
         return getDueWordsUseCase;
     }
+
+    public DeleteWordUseCase deleteWord() { return deleteWordUseCase; }
 }

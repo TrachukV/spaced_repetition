@@ -14,6 +14,7 @@ public class App {
         AddWordUseCase add = cfg.addWord();
         GetDueWordsUseCase due = cfg.getDueWords();
 
+
         Word w1 = add.execute("apple", "äpple");
         Word w2 = add.execute("house", "hus");
         Word w3 = add.execute("river", "älv");

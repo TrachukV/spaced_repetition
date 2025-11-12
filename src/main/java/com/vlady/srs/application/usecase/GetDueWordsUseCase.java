@@ -12,7 +12,6 @@ public class GetDueWordsUseCase {
     public GetDueWordsUseCase(WordRepository repo) {
         this.repo = repo;
     }
-
     public List<Word> execute(LocalDate date) {
         return repo.findDue(date);
     }

@@ -33,6 +33,7 @@ public class InMemoryWordRepository implements WordRepository {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public void delete(String id) {
         store.remove(id);

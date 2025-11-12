@@ -7,8 +7,11 @@ import java.util.Optional;
 import java.util.List;
 
 public interface WordRepository {
+
     void save(Word word);
+
     Optional<Word> findById(String id);
+
     List<Word> findAll();
 
     List<Word> findDue(LocalDate date);

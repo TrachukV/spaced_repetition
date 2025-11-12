@@ -27,7 +27,6 @@ public class Word {
     public String getFront() {
         return front;
     }
-
     public String getBack() {
         return back;
     }

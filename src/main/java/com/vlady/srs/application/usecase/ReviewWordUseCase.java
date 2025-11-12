@@ -9,7 +9,6 @@ public class ReviewWordUseCase {
     public ReviewWordUseCase(WordRepository repo) {
         this.repo = repo;
     }
-
     public Word execute(Word word, boolean correct) {
         word.review(correct);
         repo.save(word);

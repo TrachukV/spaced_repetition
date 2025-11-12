@@ -8,6 +8,7 @@ import java.util.UUID;
 public class AddWordUseCase {
     private final WordRepository repo;
 
+
     public AddWordUseCase(WordRepository repo) {
         this.repo = repo;
     }
